@@ -16,9 +16,9 @@ export const callApi = async({url, method, token, body}) => {
         const data = await response.json();
         if(data.error) { 
             throw (data.error)
-        }
+        } 
+        return (data);
     } catch (error) { 
         console.error(error);
     }
-    finally{}
 }
