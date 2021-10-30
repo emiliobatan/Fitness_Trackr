@@ -3,7 +3,9 @@ import { Route } from 'react-router-dom';
 
 import {
     Home,
-    LoginReg
+    LoginReg,
+    Navbar,
+    Routines
 } from './components/index'
 
 const App = () => { 
@@ -13,8 +15,11 @@ const App = () => {
             <Route exact path ='/'>
                 <Home />
             </Route>
-            <Route path='/users/:method'>
+            <Route path ='/users/:method'>
                 <LoginReg />
+            </Route>
+            <Route path ='/routines'> 
+                <Routines />
             </Route>
         </>
     )
