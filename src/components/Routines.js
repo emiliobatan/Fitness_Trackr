@@ -1,10 +1,26 @@
-import React from "react"; 
+import React, { useState, useEffect, useContext} from "react"; 
+import { callApi } from "../util";
+import { Routine } from ".";
 
 const Routines = () => { 
+    const [ routines, setRoutines ] = useState([]);
+    
+    useEffect(async () => {
+        const _routines = await callApi({
+            method: 'GET',
+            url: `/routines`
+        })
+        if (_routines) {
+            setRoutines(_routines)
+        }
+    }, [])
     return (
-        <> 
-            <h3> Routines </h3>
-        </> 
+        <div>
+        <div>Routines</div>
+        {routines.map((routine, idx)=>{
+            return <Routine routine={routine} key={idx}/>
+        })}
+    </div>
     )
 }
 

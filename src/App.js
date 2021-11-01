@@ -1,5 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import { Route } from 'react-router-dom';
+import { useParams } from 'react-router';
+import { UserContext } from './context/UserContext';
+
 
 import {
     Home,
@@ -9,6 +12,8 @@ import {
 } from './components/index'
 
 const App = () => { 
+    const params = useParams();
+    const { setToken, setLoggenIn} = useContext(UserContext);
 
     return (
         <> 
