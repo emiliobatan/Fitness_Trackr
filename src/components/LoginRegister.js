@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import { callApi } from "../util";
 import { useParams, useHistory, Link } from 'react-router-dom'
-import { UserContext } from "../context/userContext";
+import { UserContext } from "../context/UserContext";
 
 
 const LoginReg = () => {
 
-    const { loggedIn, setloggedIn, setToken } = useContext(UserContext)
+    const { setUser, setToken, setLoggedIn, loggedIn } = useContext(UserContext)
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -21,6 +21,12 @@ const LoginReg = () => {
         setPassword(event.target.value)
     }
 
+    useEffect(async ()=>{
+        if (loggedIn===true){
+            history.push("/")
+        }
+    }, [loggedIn])
+
 
     const loginResp = async () => {
         try {
@@ -34,9 +40,11 @@ const LoginReg = () => {
                 }   
             })
             if (response.message === "you're logged in!") {
-                console.log(response);
-                setToken(response.token)
                 history.push("/")
+                localStorage.setItem('userToken', response.token);
+                setToken(response.token)
+                setLoggedIn(true)
+                setUser(response.user.username)
             }
         }
         catch (error) {

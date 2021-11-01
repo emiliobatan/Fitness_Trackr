@@ -15,6 +15,7 @@ const App = () => {
             <Route exact path ='/'>
                 <Home />
             </Route>
+            <Navbar /> 
             <Route path ='/users/:method'>
                 <LoginReg />
             </Route>
