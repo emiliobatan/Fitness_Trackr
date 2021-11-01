@@ -46,9 +46,9 @@ const Routine = (routine) => {
     return <>
         <Card id="routine">
             <CardHeader>{name}</CardHeader>
-            <CardContent>{creatorName}</CardContent>
-            <CardContent>{goal}</CardContent>
-            <CardContent>{isOwner}</CardContent>
+            <h3>{creatorName}</h3>
+            <h3>{goal}</h3>
+            <h3>{isOwner}</h3>
             <button onClick={handleDelete}>Delete Routine</button>
             {activities.map((activity, idx) => {
                 return <Activity activity={activity} key={idx} />
