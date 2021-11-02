@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext} from "react"; 
 import { callApi } from "../util";
 import { Routine } from ".";
-import { getAllRoutines } from "../util";
-import { typography } from "@mui/system";
 
 const Routines = () => { 
     const [ routines, setRoutines ] = useState([]);

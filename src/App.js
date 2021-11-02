@@ -8,7 +8,10 @@ import {
     Home,
     LoginReg,
     Navbar,
-    Routines
+    Routines,
+    Activities,
+    Profile,
+    MyRoutines
 } from './components/index'
 
 const App = () => { 
@@ -20,12 +23,21 @@ const App = () => {
             <Route exact path ='/'>
                 <Home />
             </Route>
+            <Route exact path='/profile'>
+                <Profile /> 
+            </Route>
             <Navbar /> 
             <Route path ='/users/:method'>
                 <LoginReg />
             </Route>
             <Route path ='/routines'> 
                 <Routines />
+            </Route>
+            <Route path ='/activities'> 
+                <Activities /> 
+            </Route>
+            <Route path='/myroutines'>
+                <MyRoutines/>
             </Route>
         </>
     )

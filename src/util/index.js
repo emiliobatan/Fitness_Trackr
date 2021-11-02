@@ -9,7 +9,7 @@ export const callApi = async ({ url, method, token, body }) => {
       },
       body: JSON.stringify(body)
     };
-    if (token) options.headers['Authorixation'] = `Bearer ${token}`;
+    if (token) options.headers['Authorization'] = `Bearer ${token}`;
 
 
     const response = await fetch(`${REACT_APP_API_URL}${url}`, options);
@@ -23,12 +23,17 @@ export const callApi = async ({ url, method, token, body }) => {
   }
 }
 
-const { REACT_APP_BASE_URL } = process.env;
-const baseURL = REACT_APP_BASE_URL;
+// const { REACT_APP_BASE_URL } = process.env;
+const baseURL = REACT_APP_API_URL;
 
 export const request = async ({ endpoint, method, body, token }) => {
   try {
     let headers = { 'Content-Type': 'application/json' }
+    console.log("ENDPOINT", endpoint)
+    console.log("METHOD", method)
+    console.log("BODY", body)
+    console.log("token", token)
+    console.log("BASEURL", baseURL)
     if (token) headers['Authorization'] = `Bearer ${token}`
     let _request = {
       method: method,
@@ -81,11 +86,13 @@ export const register = async (bodyData) => {
 
 export const getMe = async (token) => {
   const endpoint = '/users/me'
+  console.log('TOKEN', token)
   const data = await request({
     endpoint: endpoint,
     method: 'GET',
     token: token
   })
+  console.log("DATA", data);
   return data
 }
 
@@ -111,6 +118,8 @@ export const getUserRoutines = async (username) => {
 export const getMyRoutines = async (token) => {
   try {
     const user = await getMe(token)
+    console.log('USER', user);
+    console.log('>>>>>',user.username);
     const userRoutines = await getUserRoutinesWithToken(user.username, token)
     return userRoutines
   } catch (error) {

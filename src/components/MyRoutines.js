@@ -3,6 +3,7 @@ import { Routine } from '.';
 import { UserContext } from '../context/UserContext';
 import { useHistory } from 'react-router';
 import { getMyRoutines } from '../util';
+import { postRoutine } from '../util';
 
 const MyRoutines = () => {
     const history = useHistory();
@@ -12,8 +13,23 @@ const MyRoutines = () => {
     const [goal, setGoal] = useState('');
     const [isPublic, setIsPublic] = useState(false);
 
+
     const createRoutine = async (event) => {
         event.preventDefault();
+        try {
+            const res = await postRoutine(token, name, goal, isPublic);
+            if (res) {
+                setGoal("");
+                setName("");
+                await fetchRoutines();
+                await fetchUserRoutines();
+                history.push("/user/routines");
+            }
+
+            return res;
+        } catch (error) {
+            throw error
+        }
     }
 
     useEffect(async () => {
@@ -21,16 +37,21 @@ const MyRoutines = () => {
             history.push('./Home.js')
         } else {
             const exclusiveRoutine = await getMyRoutines(token)
-                if (exclusiveRoutine) {
-                    setRoutines(exclusiveRoutine)
-                }
+            if (exclusiveRoutine) {
+                setRoutines(exclusiveRoutine)
             }
         }
-    , [loggedIn])
+    }
+        , [loggedIn])
 
     return (
         <>
             <div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
                 <div> My Routine</div>
                 <h2> Create Routine </h2>
                 <form onSubmit={createRoutine}>
