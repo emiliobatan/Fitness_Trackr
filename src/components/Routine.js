@@ -16,13 +16,13 @@ const Activity = (activity) => {
             <div> Duration: {duration}s </div>
         </div>
     )
-}
+} 
 
 const Routine = (routine) => {
     const history = useHistory();
-    const { user } = useContext(UserContext);
+    const { user, token } = useContext(UserContext);
     const [isOwner, setIsOwner] = useState(true);
-    const { id, name, goal, creatorName, activities } = routine.routine
+    const { id: routineId, name, goal, creatorName, activities } = routine.routine
 
     useEffect(() => {
         if (creatorName == user) {
@@ -32,14 +32,14 @@ const Routine = (routine) => {
         }
     })
 
-    const handleDelete = async (token, routineId) => {
+    const handleDelete = async () => {
         const respObj = await callApi({
             method: 'DELETE',
             url: `/routines/${routineId}`,
-            token
+            token: token
         })
-        if (handleDelete) {
-            history.push('/.MyRoutines.js')
+        if (respObj) {
+            history.push('/myRoutines')
         }
     }
 
@@ -49,7 +49,7 @@ const Routine = (routine) => {
             <h3>{creatorName}</h3>
             <h3>{goal}</h3>
             <h3>{isOwner}</h3>
-            <button onClick={handleDelete}>Delete Routine</button>
+            <button onClick={handleDelete }>Delete Routine</button>
             {activities.map((activity, idx) => {
                 return <Activity activity={activity} key={idx} />
             })}

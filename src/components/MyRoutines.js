@@ -2,13 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Routine } from '.';
 import { UserContext } from '../context/UserContext';
 import { useHistory } from 'react-router';
-import { getMyRoutines } from '../util';
+import { callApi, getMyRoutines } from '../util';
 import { postRoutine } from '../util';
 
 const MyRoutines = () => {
     const history = useHistory();
     const [routines, setRoutines] = useState([]);
-    const { token, loggedIn } = useContext(UserContext);
+    const { token, loggedIn, user} = useContext(UserContext);
     const [name, setName] = useState('');
     const [goal, setGoal] = useState('');
     const [isPublic, setIsPublic] = useState(false);
@@ -16,14 +16,15 @@ const MyRoutines = () => {
 
     const createRoutine = async (event) => {
         event.preventDefault();
+
         try {
             const res = await postRoutine(token, name, goal, isPublic);
             if (res) {
                 setGoal("");
                 setName("");
-                await fetchRoutines();
-                await fetchUserRoutines();
-                history.push("/user/routines");
+                // await fetchRoutines();
+                // await fetchUserRoutines();
+                await render();
             }
 
             return res;
@@ -34,7 +35,7 @@ const MyRoutines = () => {
 
     useEffect(async () => {
         if (!loggedIn) {
-            history.push('./Home.js')
+            history.push('/')
         } else {
             const exclusiveRoutine = await getMyRoutines(token)
             if (exclusiveRoutine) {
@@ -43,6 +44,30 @@ const MyRoutines = () => {
         }
     }
         , [loggedIn])
+
+    const render = async () => {
+        const _myRoutines = await callApi({
+            method: 'GET',
+            url: `/users/${user}/routines`,
+            token: token
+        })
+        if (_myRoutines) {
+            setRoutines(_myRoutines)
+        }
+    }
+    useEffect(async () => { 
+        await render();
+    },[])
+
+    // useEffect(async () => {
+    //     const _routines = await callApi({
+    //         method: 'GET',
+    //         url: `/routines`
+    //     })
+    //     if (_routines) {
+    //         setRoutines(_routines)
+    //     }
+    // }, [])
 
     return (
         <>

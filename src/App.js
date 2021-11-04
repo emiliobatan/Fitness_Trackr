@@ -36,7 +36,7 @@ const App = () => {
             <Route path ='/activities'> 
                 <Activities /> 
             </Route>
-            <Route path='/myroutines'>
+            <Route path='/myRoutines'>
                 <MyRoutines/>
             </Route>
         </>
